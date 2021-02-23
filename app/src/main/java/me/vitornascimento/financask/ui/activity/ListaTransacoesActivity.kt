@@ -2,13 +2,17 @@ package me.vitornascimento.financask.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import me.vitornascimento.financask.R
+import me.vitornascimento.financask.databinding.ActivityListaTransacoesBinding
 
 class ListaTransacoesActivity : AppCompatActivity() {
 
+    lateinit var binding: ActivityListaTransacoesBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_lista_transacoes)
+        binding = ActivityListaTransacoesBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
     }
 
 }
