@@ -3,10 +3,10 @@ package me.vitornascimento.financask.ui.activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import me.vitornascimento.financask.databinding.ActivityListaTransacoesBinding
+import me.vitornascimento.financask.model.TipoTransacao
 import me.vitornascimento.financask.model.Transacao
 import me.vitornascimento.financask.ui.adapter.ListaTransacoesAdapter
 import java.math.BigDecimal
-import java.util.*
 
 class ListaTransacoesActivity : AppCompatActivity() {
 
@@ -20,14 +20,20 @@ class ListaTransacoesActivity : AppCompatActivity() {
 
         val transacoes = listOf(
                 Transacao(
-                        BigDecimal(20.5), "Comida", Calendar.getInstance()
+                        valor = BigDecimal(20.5), tipo = TipoTransacao.DESPESA
                 ),
                 Transacao(
-                        BigDecimal(100.0), "Economia", Calendar.getInstance()
+                        BigDecimal(100.0), "Economia", TipoTransacao.RECEITA
+                ),
+                Transacao(
+                        BigDecimal(200.0), tipo = TipoTransacao.DESPESA
+                ),
+                Transacao(
+                        BigDecimal(500.0), categoria = "Salário", tipo = TipoTransacao.RECEITA
                 )
         )
 
-        val adapter = ListaTransacoesAdapter(transacoes, this)
+        val adapter = ListaTransacoesAdapter(transacoes)
 
         binding.listaTransacoesListview.adapter = adapter
     }
