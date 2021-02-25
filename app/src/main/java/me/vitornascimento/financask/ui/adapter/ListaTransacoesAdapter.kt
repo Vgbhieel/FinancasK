@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.textview.MaterialTextView
 import me.vitornascimento.financask.R
 import me.vitornascimento.financask.extension.formataParaBrasileiro
+import me.vitornascimento.financask.extension.limitaEmAte
 import me.vitornascimento.financask.model.TipoTransacao
 import me.vitornascimento.financask.model.Transacao
 
@@ -16,6 +17,7 @@ class ListaTransacoesAdapter(
         private val transacoes: List<Transacao>
 ) : BaseAdapter() {
 
+    private val limiteDeCaracteres = 14
 
     override fun getCount(): Int {
         return transacoes.size
@@ -60,9 +62,7 @@ class ListaTransacoesAdapter(
         }
 
         campoValor.text = transacaoAtual.valor.formataParaBrasileiro()
-
-        campoCategoria.text = transacaoAtual.categoria
-
+        campoCategoria.text = transacaoAtual.categoria.limitaEmAte(limiteDeCaracteres)
         campoData.text = transacaoAtual.data.formataParaBrasileiro()
 
         return view
