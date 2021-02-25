@@ -18,24 +18,28 @@ class ListaTransacoesActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        val transacoes = listOf(
-                Transacao(
-                        valor = BigDecimal(20.5), tipo = TipoTransacao.DESPESA
-                ),
-                Transacao(
-                        BigDecimal(100.0), "Economia", TipoTransacao.RECEITA
-                ),
-                Transacao(
-                        BigDecimal(200.0), tipo = TipoTransacao.DESPESA
-                ),
-                Transacao(
-                        BigDecimal(500.0), categoria = "Salário", tipo = TipoTransacao.RECEITA
-                )
-        )
+        val transacoes: List<Transacao> = transacoesDeExemplo()
+        configuraListView(transacoes)
+    }
 
+    private fun configuraListView(transacoes: List<Transacao>) {
         val adapter = ListaTransacoesAdapter(transacoes)
-
         binding.listaTransacoesListview.adapter = adapter
     }
+
+    private fun transacoesDeExemplo() = listOf(
+            Transacao(
+                    valor = BigDecimal(20.5), tipo = TipoTransacao.DESPESA
+            ),
+            Transacao(
+                    BigDecimal(100.0), "Economia", TipoTransacao.RECEITA
+            ),
+            Transacao(
+                    BigDecimal(200.0), tipo = TipoTransacao.DESPESA
+            ),
+            Transacao(
+                    BigDecimal(500.0), categoria = "Salário", tipo = TipoTransacao.RECEITA
+            )
+    )
 
 }

@@ -36,14 +36,31 @@ class ListaTransacoesAdapter(
                 .from(parent?.context)
                 .inflate(R.layout.transacao_item, parent, false)
 
-        val campoValor = view.findViewById<MaterialTextView>(R.id.transacao_valor)
+        val transacaoAtual = getItem(position)
+        inicializaCampos(transacaoAtual, view, parent)
+
+        return view
+    }
+
+    private fun inicializaCampos(transacao: Transacao, view: View, parent: ViewGroup?) {
+
+
         val campoCategoria = view.findViewById<MaterialTextView>(R.id.transacao_categoria)
+        campoCategoria.text = transacao.categoria.limitaEmAte(limiteDeCaracteres)
+
         val campoData = view.findViewById<MaterialTextView>(R.id.transacao_data)
+        campoData.text = transacao.data.formataParaBrasileiro()
+
+        val campoValor = view.findViewById<MaterialTextView>(R.id.transacao_valor)
+        campoValor.text = transacao.valor.formataParaBrasileiro()
+
         val iconeTransacao = view.findViewById<ImageView>(R.id.transacao_icone)
 
-        val transacaoAtual = getItem(position)
+        formataCampoValorEIcone(transacao.tipo, parent, campoValor, iconeTransacao)
+    }
 
-        when (transacaoAtual.tipo) {
+    private fun formataCampoValorEIcone(tipoTransacaoAtual: TipoTransacao, parent: ViewGroup?, campoValor: MaterialTextView, iconeTransacao: ImageView) {
+        when (tipoTransacaoAtual) {
 
             TipoTransacao.RECEITA -> {
                 if (parent != null) {
@@ -60,11 +77,5 @@ class ListaTransacoesAdapter(
             }
 
         }
-
-        campoValor.text = transacaoAtual.valor.formataParaBrasileiro()
-        campoCategoria.text = transacaoAtual.categoria.limitaEmAte(limiteDeCaracteres)
-        campoData.text = transacaoAtual.data.formataParaBrasileiro()
-
-        return view
     }
 }
