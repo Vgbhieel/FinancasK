@@ -8,6 +8,8 @@ import android.widget.BaseAdapter
 import com.google.android.material.textview.MaterialTextView
 import me.vitornascimento.financask.R
 import me.vitornascimento.financask.model.Transacao
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ListaTransacoesAdapter(
         private val transacoes: List<Transacao>,
@@ -38,9 +40,12 @@ class ListaTransacoesAdapter(
 
         val transacaoAtual = getItem(position)
 
-        campoValor.setText(transacaoAtual.valor.toString())
-        campoCategoria.setText(transacaoAtual.categoria)
-        campoData.setText(transacaoAtual.data.time.toString())
+        campoValor.text = transacaoAtual.valor.toString()
+
+        campoCategoria.text = transacaoAtual.categoria
+
+        val formatToBrazil = SimpleDateFormat("dd/MM/yyyy", Locale("pt", "BR"))
+        campoData.text = formatToBrazil.format(transacaoAtual.data.time)
 
 
         return view
