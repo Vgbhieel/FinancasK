@@ -41,16 +41,16 @@ class ListaTransacoesActivity : AppCompatActivity() {
 
     private fun transacoesDeExemplo() = listOf(
             Transacao(
-                    valor = BigDecimal(20.5), tipo = TipoTransacao.DESPESA
+                    valor = BigDecimal(100.0), tipo = TipoTransacao.DESPESA
             ),
             Transacao(
                     BigDecimal(100.0), "Economia", TipoTransacao.RECEITA
             ),
             Transacao(
-                    BigDecimal(700.0), tipo = TipoTransacao.DESPESA
+                    BigDecimal(100.0), tipo = TipoTransacao.DESPESA
             ),
             Transacao(
-                    BigDecimal(500.0), categoria = "Salário", tipo = TipoTransacao.RECEITA
+                    BigDecimal(100.0), categoria = "Salário", tipo = TipoTransacao.RECEITA
             )
     )
 
