@@ -2,6 +2,7 @@ package me.vitornascimento.financask.ui
 
 import android.view.View
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import me.vitornascimento.financask.R
 import me.vitornascimento.financask.extension.formataParaBrasileiro
 import me.vitornascimento.financask.model.Resumo
@@ -15,12 +16,14 @@ class ResumoView(private val view: View, private val transacoes: List<Transacao>
         val totalReceita = resumo.receita()
         val resumoCardReceita = view.findViewById<TextView>(R.id.resumo_card_receita)
         resumoCardReceita.text = totalReceita.formataParaBrasileiro()
+        resumoCardReceita.setTextColor(ContextCompat.getColor(view.context, R.color.receita))
     }
 
     fun adicionaDespesas() {
         val totalDespesas = resumo.despesa()
         val resumoCardDespesa = view.findViewById<TextView>(R.id.resumo_card_despesa)
         resumoCardDespesa.text = totalDespesas.formataParaBrasileiro()
+        resumoCardDespesa.setTextColor(ContextCompat.getColor(view.context, R.color.despesa))
     }
 
     fun adicionaTotal() {
