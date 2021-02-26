@@ -12,30 +12,42 @@ import java.math.BigDecimal
 class ResumoView(private val view: View, private val transacoes: List<Transacao>) {
 
     private val resumo = Resumo(transacoes)
+    private val corReceitas = ContextCompat.getColor(view.context, R.color.receita)
+    private val corDespesas = ContextCompat.getColor(view.context, R.color.despesa)
 
     fun adicionaReceitas() {
         val totalReceita = resumo.receita()
         val resumoCardReceita = view.findViewById<TextView>(R.id.resumo_card_receita)
-        resumoCardReceita.text = totalReceita.formataParaBrasileiro()
-        resumoCardReceita.setTextColor(ContextCompat.getColor(view.context, R.color.receita))
+        with(resumoCardReceita) {
+            text = totalReceita.formataParaBrasileiro()
+            setTextColor(corReceitas)
+        }
     }
+
 
     fun adicionaDespesas() {
         val totalDespesas = resumo.despesa()
         val resumoCardDespesa = view.findViewById<TextView>(R.id.resumo_card_despesa)
-        resumoCardDespesa.text = totalDespesas.formataParaBrasileiro()
-        resumoCardDespesa.setTextColor(ContextCompat.getColor(view.context, R.color.despesa))
+        with(resumoCardDespesa) {
+            text = totalDespesas.formataParaBrasileiro()
+            setTextColor(corDespesas)
+        }
     }
 
     fun adicionaTotal() {
         val total = resumo.total()
         val resumoCardTotal = view.findViewById<TextView>(R.id.resumo_card_total)
-        if (total.compareTo(BigDecimal.ZERO) >= 0) {
-            resumoCardTotal.setTextColor(ContextCompat.getColor(view.context, R.color.receita))
-        } else {
-            resumoCardTotal.setTextColor(ContextCompat.getColor(view.context, R.color.despesa))
+        val cor: Int = corPor(total)
+        with(resumoCardTotal) {
+            text = total.formataParaBrasileiro()
+            setTextColor(cor)
         }
-        resumoCardTotal.text = total.formataParaBrasileiro()
+    }
+
+    private fun corPor(valor: BigDecimal) = if (valor >= BigDecimal.ZERO) {
+        corReceitas
+    } else {
+        corDespesas
     }
 
 
