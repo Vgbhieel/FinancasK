@@ -4,29 +4,23 @@ import java.math.BigDecimal
 
 class Resumo(private val transacoes: List<Transacao>) {
 
-    fun receita(): BigDecimal {
+    val receita get() = somaPor(TipoTransacao.RECEITA)
 
-        var totalReceita = BigDecimal.ZERO
-        for (transacao in transacoes) {
-            if (transacao.tipo == TipoTransacao.RECEITA) {
-                totalReceita = totalReceita.plus(transacao.valor)
-            }
-        }
-        return totalReceita
-    }
+    val despesa get() = somaPor(TipoTransacao.DESPESA)
 
-    fun despesa(): BigDecimal {
+    val total: BigDecimal
+        get() = receita.subtract(despesa)
 
-        var totalDespesa = BigDecimal.ZERO
-        for (transacao in transacoes) {
-            if (transacao.tipo == TipoTransacao.DESPESA) {
-                totalDespesa = totalDespesa.plus(transacao.valor)
-            }
-        }
-        return totalDespesa
-    }
 
-    fun total(): BigDecimal {
-        return receita().subtract(despesa())
+    private fun somaPor(tipo: TipoTransacao): BigDecimal {
+        val somaDeTransacoesPeloTipo = transacoes
+                .filter {
+                    it.tipo == tipo
+                }
+                .sumByDouble {
+                    it.valor.toDouble()
+                }
+
+        return BigDecimal(somaDeTransacoesPeloTipo)
     }
 }
