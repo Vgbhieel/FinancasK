@@ -1,10 +1,12 @@
 package me.vitornascimento.financask.ui.activity
 
 import android.os.Bundle
+import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import me.vitornascimento.financask.databinding.ActivityListaTransacoesBinding
 import me.vitornascimento.financask.model.TipoTransacao
 import me.vitornascimento.financask.model.Transacao
+import me.vitornascimento.financask.ui.ResumoView
 import me.vitornascimento.financask.ui.adapter.ListaTransacoesAdapter
 import java.math.BigDecimal
 
@@ -18,8 +20,18 @@ class ListaTransacoesActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        val transacoes: List<Transacao> = transacoesDeExemplo()
+        var transacoes: List<Transacao> = transacoesDeExemplo()
+
+        configuraResumoView(view, transacoes)
+
         configuraListView(transacoes)
+    }
+
+    private fun configuraResumoView(view: RelativeLayout, transacoes: List<Transacao>) {
+        val resumoView = ResumoView(view, transacoes)
+        resumoView.adicionaReceitas()
+        resumoView.adicionaDespesas()
+        resumoView.adicionaTotal()
     }
 
     private fun configuraListView(transacoes: List<Transacao>) {
