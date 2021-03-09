@@ -33,19 +33,26 @@ class AdicionaTransacaoDialog(private val viewGroup: ViewGroup,
     private val formValorTransacao = viewDialog
             .findViewById<EditText>(R.id.form_transacao_valor)
 
-    fun configuraAlertDialog(transacaoDelegate: TransacaoDelegate) {
+    fun configuraAlertDialog(tipoTransacao: TipoTransacao, transacaoDelegate: TransacaoDelegate) {
 
         configuraCampoData()
 
-        configuraCampoCategoria()
+        configuraCampoCategoria(tipoTransacao)
 
-        configuraFormulario(transacaoDelegate)
+        configuraFormulario(tipoTransacao, transacaoDelegate)
     }
 
-    private fun configuraFormulario(transacaoDelegate: TransacaoDelegate) {
+    private fun configuraFormulario(tipoTransacao: TipoTransacao, transacaoDelegate: TransacaoDelegate) {
+
+        val titulo = if (tipoTransacao == TipoTransacao.RECEITA) {
+            R.string.adiciona_receita
+        } else {
+            R.string.adiciona_despesa
+        }
+
         AlertDialog
                 .Builder(context)
-                .setTitle(R.string.adiciona_receita)
+                .setTitle(titulo)
                 .setView(viewDialog)
                 .setPositiveButton("Adicionar") { _, _ ->
 
@@ -63,7 +70,7 @@ class AdicionaTransacaoDialog(private val viewGroup: ViewGroup,
                     val dataEmCalendar = dataEmString.converteParaCalendar()
 
 
-                    val transacaoCriada = Transacao(tipo = TipoTransacao.RECEITA,
+                    val transacaoCriada = Transacao(tipo = tipoTransacao,
                             valor = valorEmBigDecimal,
                             data = dataEmCalendar,
                             categoria = categoriaEmString)
@@ -87,10 +94,17 @@ class AdicionaTransacaoDialog(private val viewGroup: ViewGroup,
         BigDecimal.ZERO
     }
 
-    private fun configuraCampoCategoria() {
+    private fun configuraCampoCategoria(tipoTransacao: TipoTransacao) {
+
+        val categorias = if (tipoTransacao == TipoTransacao.RECEITA) {
+            R.array.categorias_de_receita
+        } else {
+            R.array.categorias_de_despesa
+        }
+
         val spinnerAdapter = ArrayAdapter
                 .createFromResource(context,
-                        R.array.categorias_de_receita,
+                        categorias,
                         android.R.layout.simple_spinner_dropdown_item)
         formCategoriaTransacao.adapter = spinnerAdapter
     }

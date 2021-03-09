@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import me.vitornascimento.financask.databinding.ActivityListaTransacoesBinding
 import me.vitornascimento.financask.delegate.TransacaoDelegate
 import me.vitornascimento.financask.dialog.AdicionaTransacaoDialog
+import me.vitornascimento.financask.model.TipoTransacao
 import me.vitornascimento.financask.model.Transacao
 import me.vitornascimento.financask.ui.ResumoView
 import me.vitornascimento.financask.ui.adapter.ListaTransacoesAdapter
@@ -28,7 +29,18 @@ class ListaTransacoesActivity : AppCompatActivity() {
         binding.listaTransacoesAdicionaReceita
                 .setOnClickListener {
                     AdicionaTransacaoDialog(view, this)
-                            .configuraAlertDialog(object : TransacaoDelegate {
+                            .configuraAlertDialog(TipoTransacao.RECEITA, object : TransacaoDelegate {
+                                override fun delegate(transacao: Transacao) {
+                                    adicionaTransacao(transacao)
+                                    binding.listaTransacoesAdicionaMenu.close(true)
+                                }
+                            })
+                }
+
+        binding.listaTransacoesAdicionaDespesa
+                .setOnClickListener {
+                    AdicionaTransacaoDialog(view, this)
+                            .configuraAlertDialog(TipoTransacao.DESPESA, object : TransacaoDelegate {
                                 override fun delegate(transacao: Transacao) {
                                     adicionaTransacao(transacao)
                                     binding.listaTransacoesAdicionaMenu.close(true)
