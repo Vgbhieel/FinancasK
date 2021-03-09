@@ -33,7 +33,7 @@ class AdicionaTransacaoDialog(private val viewGroup: ViewGroup,
     private val formValorTransacao = viewDialog
             .findViewById<EditText>(R.id.form_transacao_valor)
 
-    fun configuraAlertDialog(tipoTransacao: TipoTransacao, transacaoDelegate: TransacaoDelegate) {
+    fun chama(tipoTransacao: TipoTransacao, transacaoDelegate: TransacaoDelegate) {
 
         configuraCampoData()
 
@@ -44,11 +44,7 @@ class AdicionaTransacaoDialog(private val viewGroup: ViewGroup,
 
     private fun configuraFormulario(tipoTransacao: TipoTransacao, transacaoDelegate: TransacaoDelegate) {
 
-        val titulo = if (tipoTransacao == TipoTransacao.RECEITA) {
-            R.string.adiciona_receita
-        } else {
-            R.string.adiciona_despesa
-        }
+        val titulo = tituloPor(tipoTransacao)
 
         AlertDialog
                 .Builder(context)
@@ -83,6 +79,13 @@ class AdicionaTransacaoDialog(private val viewGroup: ViewGroup,
                 .show()
     }
 
+    private fun tituloPor(tipoTransacao: TipoTransacao) =
+            if (tipoTransacao == TipoTransacao.RECEITA) {
+                R.string.adiciona_receita
+            } else {
+                R.string.adiciona_despesa
+            }
+
 
     private fun converteCampoValor(valorEmTexto: String) = try {
         BigDecimal(valorEmTexto)
@@ -96,11 +99,7 @@ class AdicionaTransacaoDialog(private val viewGroup: ViewGroup,
 
     private fun configuraCampoCategoria(tipoTransacao: TipoTransacao) {
 
-        val categorias = if (tipoTransacao == TipoTransacao.RECEITA) {
-            R.array.categorias_de_receita
-        } else {
-            R.array.categorias_de_despesa
-        }
+        val categorias = categoriasPor(tipoTransacao)
 
         val spinnerAdapter = ArrayAdapter
                 .createFromResource(context,
@@ -108,6 +107,13 @@ class AdicionaTransacaoDialog(private val viewGroup: ViewGroup,
                         android.R.layout.simple_spinner_dropdown_item)
         formCategoriaTransacao.adapter = spinnerAdapter
     }
+
+    private fun categoriasPor(tipoTransacao: TipoTransacao) =
+            if (tipoTransacao == TipoTransacao.RECEITA) {
+                R.array.categorias_de_receita
+            } else {
+                R.array.categorias_de_despesa
+            }
 
     private fun configuraCampoData() {
         val hoje = Calendar.getInstance()
