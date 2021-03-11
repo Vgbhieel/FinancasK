@@ -14,7 +14,7 @@ import me.vitornascimento.financask.model.TipoTransacao
 import me.vitornascimento.financask.model.Transacao
 
 class ListaTransacoesAdapter(
-        private val transacoes: List<Transacao>
+    private val transacoes: List<Transacao>
 ) : BaseAdapter() {
 
     private val limiteDeCaracteres = 14
@@ -33,8 +33,8 @@ class ListaTransacoesAdapter(
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view = LayoutInflater
-                .from(parent?.context)
-                .inflate(R.layout.transacao_item, parent, false)
+            .from(parent?.context)
+            .inflate(R.layout.transacao_item, parent, false)
 
         val transacaoAtual = getItem(position)
         inicializaCampos(transacaoAtual, view, parent)
@@ -59,7 +59,12 @@ class ListaTransacoesAdapter(
         formataCampoValorEIcone(transacao.tipo, parent, campoValor, iconeTransacao)
     }
 
-    private fun formataCampoValorEIcone(tipoTransacaoAtual: TipoTransacao, parent: ViewGroup?, campoValor: MaterialTextView, iconeTransacao: ImageView) {
+    private fun formataCampoValorEIcone(
+        tipoTransacaoAtual: TipoTransacao,
+        parent: ViewGroup?,
+        campoValor: MaterialTextView,
+        iconeTransacao: ImageView
+    ) {
         when (tipoTransacaoAtual) {
 
             TipoTransacao.RECEITA -> {

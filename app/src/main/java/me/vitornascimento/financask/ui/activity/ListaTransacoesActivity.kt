@@ -6,11 +6,11 @@ import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import me.vitornascimento.financask.databinding.ActivityListaTransacoesBinding
 import me.vitornascimento.financask.delegate.TransacaoDelegate
-import me.vitornascimento.financask.dialog.AdicionaTransacaoDialog
 import me.vitornascimento.financask.model.TipoTransacao
 import me.vitornascimento.financask.model.Transacao
 import me.vitornascimento.financask.ui.ResumoView
 import me.vitornascimento.financask.ui.adapter.ListaTransacoesAdapter
+import me.vitornascimento.financask.ui.dialog.AdicionaTransacaoDialog
 
 class ListaTransacoesActivity : AppCompatActivity() {
 
@@ -31,24 +31,24 @@ class ListaTransacoesActivity : AppCompatActivity() {
 
     private fun configuraFab(view: RelativeLayout) {
         binding.listaTransacoesAdicionaReceita
-                .setOnClickListener {
-                    chamaDialogDeAdicaoDeTransacao(view, TipoTransacao.RECEITA)
-                }
+            .setOnClickListener {
+                chamaDialogDeAdicaoDeTransacao(view, TipoTransacao.RECEITA)
+            }
 
         binding.listaTransacoesAdicionaDespesa
-                .setOnClickListener {
-                    chamaDialogDeAdicaoDeTransacao(view, TipoTransacao.DESPESA)
-                }
+            .setOnClickListener {
+                chamaDialogDeAdicaoDeTransacao(view, TipoTransacao.DESPESA)
+            }
     }
 
     private fun chamaDialogDeAdicaoDeTransacao(view: ViewGroup, tipoTransacao: TipoTransacao) {
         AdicionaTransacaoDialog(view, this)
-                .chama(tipoTransacao, object : TransacaoDelegate {
-                    override fun delegate(transacao: Transacao) {
-                        adicionaTransacao(transacao)
-                        binding.listaTransacoesAdicionaMenu.close(true)
-                    }
-                })
+            .chama(tipoTransacao, object : TransacaoDelegate {
+                override fun delegate(transacao: Transacao) {
+                    adicionaTransacao(transacao)
+                    binding.listaTransacoesAdicionaMenu.close(true)
+                }
+            })
     }
 
     private fun adicionaTransacao(transacao: Transacao) {
