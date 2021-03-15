@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
+import me.vitornascimento.financask.dao.TransacaoDAO
 import me.vitornascimento.financask.databinding.ActivityListaTransacoesBinding
 import me.vitornascimento.financask.model.TipoTransacao
 import me.vitornascimento.financask.model.Transacao
@@ -16,9 +17,10 @@ import me.vitornascimento.financask.ui.dialog.AlteraTransacaoDialog
 
 class ListaTransacoesActivity : AppCompatActivity() {
 
-    private val transacoes: MutableList<Transacao> = mutableListOf()
+    private val dao = TransacaoDAO()
+    private val transacoes = dao.transacoes
 
-    lateinit var binding: ActivityListaTransacoesBinding
+    private lateinit var binding: ActivityListaTransacoesBinding
     private val view: ViewGroup by lazy {
         binding.root
     }
@@ -88,7 +90,7 @@ class ListaTransacoesActivity : AppCompatActivity() {
     }
 
     private fun remove(posicao: Int) {
-        transacoes.removeAt(posicao)
+        dao.remove(posicao)
         atualizaTransacoes()
     }
 
@@ -103,12 +105,12 @@ class ListaTransacoesActivity : AppCompatActivity() {
     }
 
     private fun adiciona(transacao: Transacao) {
-        transacoes.add(transacao)
+        dao.adiciona(transacao)
         atualizaTransacoes()
     }
 
     private fun altera(transacao: Transacao, posicao: Int) {
-        transacoes[posicao] = transacao
+        dao.altera(transacao, posicao)
         atualizaTransacoes()
     }
 
