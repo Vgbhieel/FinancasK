@@ -17,12 +17,13 @@ class ListaTransacoesActivity : AppCompatActivity() {
     private val transacoes: MutableList<Transacao> = mutableListOf()
 
     lateinit var binding: ActivityListaTransacoesBinding
-    private lateinit var view: ViewGroup
+    private val view: ViewGroup by lazy {
+        binding.root
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityListaTransacoesBinding.inflate(layoutInflater)
-        view = binding.root
         setContentView(view)
 
         configuraResumoView()
@@ -32,24 +33,24 @@ class ListaTransacoesActivity : AppCompatActivity() {
 
     private fun configuraFab(view: ViewGroup) {
         binding.listaTransacoesAdicionaReceita
-            .setOnClickListener {
-                chamaDialogDeAdicaoDeTransacao(view, TipoTransacao.RECEITA)
-            }
+                .setOnClickListener {
+                    chamaDialogDeAdicaoDeTransacao(view, TipoTransacao.RECEITA)
+                }
 
         binding.listaTransacoesAdicionaDespesa
-            .setOnClickListener {
-                chamaDialogDeAdicaoDeTransacao(view, TipoTransacao.DESPESA)
-            }
+                .setOnClickListener {
+                    chamaDialogDeAdicaoDeTransacao(view, TipoTransacao.DESPESA)
+                }
     }
 
     private fun chamaDialogDeAdicaoDeTransacao(view: ViewGroup, tipoTransacao: TipoTransacao) {
         AdicionaTransacaoDialog(view, this)
-            .chama(tipoTransacao, object : TransacaoDelegate {
-                override fun delegate(transacao: Transacao) {
-                    adiciona(transacao)
-                    binding.listaTransacoesAdicionaMenu.close(true)
-                }
-            })
+                .chama(tipoTransacao, object : TransacaoDelegate {
+                    override fun delegate(transacao: Transacao) {
+                        adiciona(transacao)
+                        binding.listaTransacoesAdicionaMenu.close(true)
+                    }
+                })
     }
 
     private fun atualizaTransacoes() {
@@ -74,15 +75,15 @@ class ListaTransacoesActivity : AppCompatActivity() {
     }
 
     private fun chamaDialogDeAlteracaoDeTransacao(
-        transacao: Transacao,
-        position: Int
+            transacao: Transacao,
+            position: Int
     ) {
         AlteraTransacaoDialog(view, this)
-            .chama(transacao, object : TransacaoDelegate {
-                override fun delegate(transacao: Transacao) {
-                    altera(transacao, position)
-                }
-            })
+                .chama(transacao, object : TransacaoDelegate {
+                    override fun delegate(transacao: Transacao) {
+                        altera(transacao, position)
+                    }
+                })
     }
 
     private fun adiciona(transacao: Transacao) {
