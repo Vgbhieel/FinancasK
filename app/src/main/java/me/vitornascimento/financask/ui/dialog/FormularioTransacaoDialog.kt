@@ -11,7 +11,6 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import me.vitornascimento.financask.R
-import me.vitornascimento.financask.delegate.TransacaoDelegate
 import me.vitornascimento.financask.extension.converteParaCalendar
 import me.vitornascimento.financask.extension.formataParaBrasileiro
 import me.vitornascimento.financask.model.TipoTransacao
@@ -32,18 +31,18 @@ abstract class FormularioTransacaoDialog(
             .findViewById<EditText>(R.id.form_transacao_valor)
     protected abstract val tituloBotaoPositivo: String
 
-    fun chama(tipoTransacao: TipoTransacao, transacaoDelegate: TransacaoDelegate) {
+    fun chama(tipoTransacao: TipoTransacao, delegate: (transacao: Transacao) -> Unit) {
 
         configuraCampoData()
 
         configuraCampoCategoria(tipoTransacao)
 
-        configuraFormulario(tipoTransacao, transacaoDelegate)
+        configuraFormulario(tipoTransacao, delegate)
     }
 
     private fun configuraFormulario(
             tipoTransacao: TipoTransacao,
-            transacaoDelegate: TransacaoDelegate
+            delegate: (transacao: Transacao) -> Unit
     ) {
 
         val titulo = tituloPor(tipoTransacao)
@@ -75,7 +74,7 @@ abstract class FormularioTransacaoDialog(
                             categoria = categoriaEmString
                     )
 
-                    transacaoDelegate.delegate(transacaoCriada)
+                    delegate(transacaoCriada)
 
 
                 }

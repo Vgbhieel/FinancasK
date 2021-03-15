@@ -3,7 +3,6 @@ package me.vitornascimento.financask.ui.dialog
 import android.content.Context
 import android.view.ViewGroup
 import me.vitornascimento.financask.R
-import me.vitornascimento.financask.delegate.TransacaoDelegate
 import me.vitornascimento.financask.extension.formataParaBrasileiro
 import me.vitornascimento.financask.model.TipoTransacao
 import me.vitornascimento.financask.model.Transacao
@@ -13,9 +12,9 @@ class AlteraTransacaoDialog(
         private val context: Context
 ) : FormularioTransacaoDialog(context, viewGroup) {
 
-    fun chama(transacao: Transacao, transacaoDelegate: TransacaoDelegate) {
+    fun chama(transacao: Transacao, delegate: (transacao: Transacao) -> Unit) {
 
-        super.chama(transacao.tipo, transacaoDelegate)
+        super.chama(transacao.tipo, delegate)
 
         inicializaCampos(transacao)
     }

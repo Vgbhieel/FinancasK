@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import me.vitornascimento.financask.databinding.ActivityListaTransacoesBinding
-import me.vitornascimento.financask.delegate.TransacaoDelegate
 import me.vitornascimento.financask.model.TipoTransacao
 import me.vitornascimento.financask.model.Transacao
 import me.vitornascimento.financask.ui.ResumoView
@@ -45,12 +44,10 @@ class ListaTransacoesActivity : AppCompatActivity() {
 
     private fun chamaDialogDeAdicaoDeTransacao(view: ViewGroup, tipoTransacao: TipoTransacao) {
         AdicionaTransacaoDialog(view, this)
-                .chama(tipoTransacao, object : TransacaoDelegate {
-                    override fun delegate(transacao: Transacao) {
-                        adiciona(transacao)
-                        binding.listaTransacoesAdicionaMenu.close(true)
-                    }
-                })
+                .chama(tipoTransacao) { transacaoCriada ->
+                    adiciona(transacaoCriada)
+                    binding.listaTransacoesAdicionaMenu.close(true)
+                }
     }
 
     private fun atualizaTransacoes() {
@@ -79,11 +76,9 @@ class ListaTransacoesActivity : AppCompatActivity() {
             position: Int
     ) {
         AlteraTransacaoDialog(view, this)
-                .chama(transacao, object : TransacaoDelegate {
-                    override fun delegate(transacao: Transacao) {
-                        altera(transacao, position)
-                    }
-                })
+                .chama(transacao) { transacaoAlterada ->
+                    altera(transacaoAlterada, position)
+                }
     }
 
     private fun adiciona(transacao: Transacao) {
